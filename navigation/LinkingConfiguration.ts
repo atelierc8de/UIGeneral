@@ -13,16 +13,35 @@ const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
+      // Account: {
+      //   screens: {
+      //     Login: {
+      //       screens: {
+      //         LoginScreen: 'login'
+      //       }
+      //     }
+      //   }
+      // },
       Root: {
         screens: {
-          TabOne: {
+          Main: {
             screens: {
-              TabOneScreen: 'one',
+              MainScreen: 'main',
             },
           },
-          TabTwo: {
+          Web: {
             screens: {
-              TabTwoScreen: 'two',
+              WebScreen: 'web',
+            },
+          },
+          MacOS: {
+            screens: {
+              MacOSScreen: 'macos',
+            },
+          },
+          Chart: {
+            screens: {
+              ChartScreen: 'chart',
             },
           },
         },

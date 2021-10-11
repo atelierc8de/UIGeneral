@@ -10,14 +10,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
 
+import {View, Text} from '../components/Themed'
+
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import LoginScreen from "../screens/account/LoginScreen";
+import WebScreen from "../screens/home/WebScreen";
+import MacOSScreen from "../screens/home/MacOSScreen";
+import ChartScreen from "../screens/home/ChartScreen";
+import MainScreen from "../screens/home/MainScreen";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -38,6 +43,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
+      {/*<Stack.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />*/}
+      <Stack.Screen name={'Login'} component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -46,6 +53,16 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
+//
+// function AccountScreen() {
+//     return(
+//         <Stack.Navigator>
+//             <Stack.Screen name={'Login'} component={LoginScreen} />
+//         </Stack.Navigator>
+//     );
+// }
+
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -58,38 +75,65 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Main"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
+        name="Main"
+        component={MainScreen}
+        options={({ navigation }: RootTabScreenProps<'Main'>) => ({
+          title: 'MainScreen',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          headerLeft: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
+                <View style={{marginHorizontal:10, backgroundColor:'blue', paddingHorizontal:10, paddingVertical:5, borderRadius:4}}>
+                    <Text lightColor={'#fff'}>Modal</Text>
+                </View>
             </Pressable>
           ),
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="Web"
+        component={WebScreen}
+        options={({ navigation }: RootTabScreenProps<'Web'>) => ({
+          title: 'WebScreen',
+          tabBarIcon: ({ color }) => <TabBarIcon name="google" color={color} />,
+            headerRight: () => (
+                <Pressable
+                    onPress={() => navigation.navigate('Login')}
+                    style={({ pressed }) => ({
+                        opacity: pressed ? 0.5 : 1,
+                    })}>
+                    <FontAwesome
+                        name="users"
+                        size={25}
+                        color={Colors[colorScheme].text}
+                        style={{ marginRight: 15 }}
+                    />
+                </Pressable>
+            ),
+        })}
+      />
+      <BottomTab.Screen
+        name="MacOS"
+        component={MacOSScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'MacOSScreen',
+          tabBarIcon: ({ color }) => <TabBarIcon name="cloud" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Chart"
+        component={ChartScreen}
+        options={{
+          title: 'ChartScreen',
+          tabBarIcon: ({ color }) => <TabBarIcon name="pie-chart" color={color} />,
         }}
       />
     </BottomTab.Navigator>
